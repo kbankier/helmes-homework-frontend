@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SectorsService } from './sectors.service';
-import { DataService } from './data.service';
+import { SectorsService } from '../services/sectors.service';
+import { DataService } from '../services/data.service';
 import { of } from 'rxjs';
 
 const sectorsServiceStub = {

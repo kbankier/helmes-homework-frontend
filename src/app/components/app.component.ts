@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SectorsService } from './sectors.service';
-import { DataService, UserDataDTO, UserDataResponseDTO } from './data.service';
-import { SectorDTO } from './models';
+import { SectorsService } from '../services/sectors.service';
+import { DataService, UserDataDTO, UserDataResponseDTO } from '../services/data.service';
+import { SectorDTO } from '../models/models';
 
 interface DisplaySector {
   id: number;

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../environments/environment';
-import { SectorDTO } from './models';
+import { environment } from '../../environments/environment';
+import { SectorDTO } from '../models/models';
 
 export interface UserDataDTO {
   id?: number;

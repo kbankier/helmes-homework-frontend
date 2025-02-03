@@ -1,7 +1,7 @@
 import { HttpRequest, HttpResponse, HttpEvent, HttpHandlerFn } from '@angular/common/http';
 import { firstValueFrom, of } from 'rxjs';
 import { authInterceptor } from './auth.interceptor';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 
 describe('authInterceptor', () => {
   it('should add the Authorization header with Basic credentials', async () => {

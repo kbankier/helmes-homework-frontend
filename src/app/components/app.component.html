@@ -39,12 +39,14 @@
   <div *ngIf="savedDataResponse" class="mt-4 p-3 border rounded bg-light">
     <h2>Saved Data (editable in current session):</h2>
     <p class="mb-1"><strong>Name:</strong> {{ savedDataResponse.name }}</p>
-    <p class="mb-1">
+    <div class="mb-1">
       <strong>Sectors:</strong>
-      <span *ngFor="let sector of savedDataResponse.sectors; let last = last">
-        {{ getSectorFullName(sector) }}<span *ngIf="!last">, </span>
-      </span>
-    </p>
+      <ul class="list-unstyled mb-0">
+        <li *ngFor="let sector of savedDataResponse.sectors">
+          {{ getSectorFullName(sector) }}
+        </li>
+      </ul>
+    </div>
     <p><strong>Agreed to terms:</strong> {{ savedDataResponse.agree ? 'Yes' : 'No' }}</p>
   </div>
 </div>
