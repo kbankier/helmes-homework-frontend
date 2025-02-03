@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <h1 class="mb-4">Please enter your name and pick the sectors you are currently involved in.</h1>
+  <form [formGroup]="userForm" (ngSubmit)="onSave()">
+    <div class="form-group">
+      <label for="name"><strong>Name:</strong></label>
+      <input id="name" type="text" class="form-control" formControlName="name" placeholder="Enter your name" />
+      <div *ngIf="submitted && userForm.get('name')?.invalid" class="text-danger">
+        Name is required!
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="sectors"><strong>Sectors:</strong></label>
+      <select id="sectors" multiple size="8" class="form-control" formControlName="sectors">
+        <option *ngFor="let ds of displaySectors"
+                [value]="ds.id"
+                [disabled]="ds.isParent"
+                [ngStyle]="{'font-weight': ds.isParent ? 'bold' : 'normal'}">
+          {{ ds.indent }}{{ ds.name }}
+        </option>
+      </select>
+      <div *ngIf="submitted && userForm.get('sectors')?.invalid" class="text-danger">
+        At least one sector must be selected!
+      </div>
+      <button type="button" class="btn btn-secondary mt-2" (click)="clearSelections()">Clear selections</button>
+    </div>
+
+    <div class="form-group form-check">
+      <input id="agree" type="checkbox" class="form-check-input" formControlName="agree" />
+      <label class="form-check-label" for="agree">Agree to terms</label>
+      <div *ngIf="submitted && userForm.get('agree')?.invalid" class="text-danger">
+        You must agree to the terms!
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+
+  <div *ngIf="savedDataResponse" class="mt-4">
+    <h2>Saved Data (Editable in current session):</h2>
+    <p><strong>Name:</strong> {{ savedDataResponse.name }}</p>
+    <p>
+      <strong>Sectors:</strong>
+      <span *ngFor="let sector of savedDataResponse.sectors; let last = last">
+        {{ sector.name }}<span *ngIf="!last">, </span>
+      </span>
+    </p>
+    <p><strong>Agreed:</strong> {{ savedDataResponse.agree ? 'Yes' : 'No' }}</p>
+  </div>
+</div>
