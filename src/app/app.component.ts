@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SectorsService, SectorDTO } from './sectors.service';
+import { SectorsService } from './sectors.service';
 import { DataService, UserDataDTO, UserDataResponseDTO } from './data.service';
+import { SectorDTO } from './models';
 
 interface DisplaySector {
   id: number;
@@ -19,7 +20,7 @@ interface DisplaySector {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title: String = "Helmes homework";
+  title: string = "Helmes homework";
   sectors: SectorDTO[] = [];
   displaySectors: DisplaySector[] = [];
 
@@ -41,9 +42,14 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sectorsService.getSectors().subscribe((data: SectorDTO[]) => {
-      this.sectors = data;
-      this.buildDisplaySectors();
+    this.sectorsService.getSectors().subscribe({
+      next: (data: SectorDTO[]) => {
+        this.sectors = data;
+        this.buildDisplaySectors();
+      },
+      error: (err) => {
+        console.error('Error fetching sectors', err);
+      }
     });
   }
 
@@ -72,11 +78,9 @@ export class AppComponent implements OnInit {
     };
 
     const result: DisplaySector[] = [];
-
     const topLevel = this.sectors.filter(s => s.parentId === null);
     topLevel.sort((a, b) => a.name.localeCompare(b.name));
     topLevel.forEach(sector => traverse(sector, 0, result));
-
     this.displaySectors = result;
   }
 
@@ -105,11 +109,26 @@ export class AppComponent implements OnInit {
         this.userForm.patchValue(patchedData);
         alert('Data saved successfully!');
         this.submitted = false;
+        this.userForm.markAsPristine();
+        this.userForm.markAsUntouched();
       },
       error: (err) => {
         console.error('Error saving data', err);
         alert('There was an error saving your data.');
       }
     });
+  }
+
+  getSectorFullName(sector: SectorDTO): string {
+    let parentNames: string[] = [];
+    let currentParentId = sector.parentId;
+    while (currentParentId !== null) {
+      const parent = this.sectors.find(s => s.id === currentParentId);
+      if (!parent) break;
+      parentNames.push(parent.name);
+      currentParentId = parent.parentId;
+    }
+    parentNames.reverse();
+    return sector.name + (parentNames.length > 0 ? ` (${parentNames.join(' - ')})` : '');
   }
 }

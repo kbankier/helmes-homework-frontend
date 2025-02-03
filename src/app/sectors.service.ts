@@ -2,12 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
-
-export interface SectorDTO {
-  id: number;
-  parentId: number | null;
-  name: string;
-}
+import { SectorDTO } from './models';
 
 @Injectable({
   providedIn: 'root'

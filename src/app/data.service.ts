@@ -2,17 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
+import { SectorDTO } from './models';
 
 export interface UserDataDTO {
   id?: number;
   name: string;
   sectors: number[];
   agree: boolean;
-}
-
-export interface SectorDTO {
-  id: number;
-  name: string;
 }
 
 export interface UserDataResponseDTO {

@@ -1,15 +1,15 @@
 <div class="container mt-4">
   <h1 class="mb-4">Please enter your name and pick the sectors you are currently involved in.</h1>
-  <form [formGroup]="userForm" (ngSubmit)="onSave()">
-    <div class="form-group">
+  <form [formGroup]="userForm" (ngSubmit)="onSave()" class="mb-4">
+    <div class="form-group mb-3">
       <label for="name"><strong>Name:</strong></label>
       <input id="name" type="text" class="form-control" formControlName="name" placeholder="Enter your name" />
-      <div *ngIf="submitted && userForm.get('name')?.invalid" class="text-danger">
+      <div *ngIf="submitted && userForm.get('name')?.invalid" class="text-danger mt-1">
         Name is required!
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group mb-3">
       <label for="sectors"><strong>Sectors:</strong></label>
       <select id="sectors" multiple size="8" class="form-control" formControlName="sectors">
         <option *ngFor="let ds of displaySectors"
@@ -19,16 +19,16 @@
           {{ ds.indent }}{{ ds.name }}
         </option>
       </select>
-      <div *ngIf="submitted && userForm.get('sectors')?.invalid" class="text-danger">
+      <div *ngIf="submitted && userForm.get('sectors')?.invalid" class="text-danger mt-1">
         At least one sector must be selected!
       </div>
       <button type="button" class="btn btn-secondary mt-2" (click)="clearSelections()">Clear selections</button>
     </div>
 
-    <div class="form-group form-check">
+    <div class="form-group form-check mb-3">
       <input id="agree" type="checkbox" class="form-check-input" formControlName="agree" />
-      <label class="form-check-label" for="agree">Agree to terms</label>
-      <div *ngIf="submitted && userForm.get('agree')?.invalid" class="text-danger">
+      <label class="form-check-label ms-2" for="agree">Agree to terms</label>
+      <div *ngIf="submitted && userForm.get('agree')?.invalid" class="text-danger mt-1">
         You must agree to the terms!
       </div>
     </div>
@@ -36,15 +36,15 @@
     <button type="submit" class="btn btn-primary">Save</button>
   </form>
 
-  <div *ngIf="savedDataResponse" class="mt-4">
-    <h2>Saved Data (Editable in current session):</h2>
-    <p><strong>Name:</strong> {{ savedDataResponse.name }}</p>
-    <p>
+  <div *ngIf="savedDataResponse" class="mt-4 p-3 border rounded bg-light">
+    <h2>Saved Data (editable in current session):</h2>
+    <p class="mb-1"><strong>Name:</strong> {{ savedDataResponse.name }}</p>
+    <p class="mb-1">
       <strong>Sectors:</strong>
       <span *ngFor="let sector of savedDataResponse.sectors; let last = last">
-        {{ sector.name }}<span *ngIf="!last">, </span>
+        {{ getSectorFullName(sector) }}<span *ngIf="!last">, </span>
       </span>
     </p>
-    <p><strong>Agreed:</strong> {{ savedDataResponse.agree ? 'Yes' : 'No' }}</p>
+    <p><strong>Agreed to terms:</strong> {{ savedDataResponse.agree ? 'Yes' : 'No' }}</p>
   </div>
 </div>

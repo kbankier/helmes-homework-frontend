@@ -20,7 +20,7 @@ const dataServiceStub = {
       id: 100,
       name: data.name,
       agree: data.agree,
-      sectors: [{ id: 5, name: 'Printing' }]
+      sectors: [{ id: 5, name: 'Printing', parentId: 1 }]
     })
 };
 
@@ -84,5 +84,28 @@ describe('AppComponent', () => {
     const printing = component.displaySectors.find(ds => ds.id === 5);
     expect(printing?.indent).not.toEqual('');
     expect(printing?.isParent).toBeFalse();
+  });
+
+  it('should return correct full name for a sector with no parent', () => {
+    const sector = { id: 1, name: 'Manufacturing', parentId: null };
+    const fullName = component.getSectorFullName(sector);
+    expect(fullName).toEqual('Manufacturing');
+  });
+
+  it('should return correct full name for a sector with one parent', () => {
+    const sector = { id: 5, name: 'Printing', parentId: 1 };
+    const fullName = component.getSectorFullName(sector);
+    expect(fullName).toEqual('Printing (Manufacturing)');
+  });
+
+  it('should return correct full name for a sector with two levels of parents', () => {
+    component.sectors = [
+      { id: 10, name: 'Grandparent', parentId: null },
+      { id: 2, name: 'Parent', parentId: 10 },
+      { id: 3, name: 'Child', parentId: 2 }
+    ];
+    const sector = { id: 3, name: 'Child', parentId: 2 };
+    const fullName = component.getSectorFullName(sector);
+    expect(fullName).toEqual('Child (Grandparent - Parent)');
   });
 });
